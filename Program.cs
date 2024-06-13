@@ -1,15 +1,13 @@
-# refactored-meme
+﻿namespace refactored_meme;
 
-## MVP 
-
-```csharp
 class Program
 {
     static void Main()
     {
+        var shouldContinueAddingItems = true;
         var itemList = new List<Item>();
 
-        while (true)
+        while (shouldContinueAddingItems)
         {
             Console.WriteLine("Enter your item's name: ");
             var itemName = Console.ReadLine()!;
@@ -24,7 +22,7 @@ class Program
 
             if (userResponse == "n")
             {
-                break;
+                shouldContinueAddingItems = false;
             }
         }
 
@@ -50,4 +48,3 @@ class Item
     public string Name {get; set;}
     public double Price {get; set;}
 }
-```
