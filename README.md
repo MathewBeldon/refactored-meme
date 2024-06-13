@@ -2,75 +2,124 @@
 
 ## MVP 
 
-### Code Breakdown
-
 ```csharp
-var shouldContinueAddingItems = true;
-var itemList = new List<(string, double)>();
-```
-This is where we initialised variables for later use; 
- * `shouldContinueAddingItems`: A boolean flag that controls the continuation of the item entry loop. It allows the loop to run until the user indicates they are finished adding items.
- * `itemList`: A list of tuples where each tuple contains a `string` (item name) and a `double` (item price). This list stores all the items entered by the user.
+class Program
+{
+    static void Main()
+    {
+        var shouldContinueAddingItems = true;
+        var itemList = new List<Item>();
 
-___
+        while (shouldContinueAddingItems)
+        {
+            Console.WriteLine("Enter your item's name: ");
+            var itemName = Console.ReadLine()!;
 
-```csharp
-while (shouldContinueAddingItems) {
-    ...
+            Console.WriteLine("Enter your item's price: ");
+            var itemPrice = Convert.ToDouble(Console.ReadLine());
+
+            itemList.Add(new Item(itemName, itemPrice));
+
+            Console.WriteLine("Would you like to input another item? (y/n)");
+            var userResponse  = Console.ReadLine()!;
+
+            if (userResponse == "n")
+            {
+                shouldContinueAddingItems = false;
+            }
+        }
+
+        var totalPrice = 0.0;
+
+        foreach(var item in itemList)
+        {
+            Console.WriteLine($"Item: {item.Name} Price: {item.Price}");
+            totalPrice += item.Price;
+        }
+
+        Console.WriteLine($"Total: {totalPrice}");
+    }
+}
+
+class Item
+{
+    public Item(string name, double price)
+    {
+        Name = name;
+        Price = price;
+    }
+    public string Name {get; set;}
+    public double Price {get; set;}
 }
 ```
-This is the main loop of the program. It keeps running, allowing the user to input item details until `shouldContinueAddingItems` is set to `false`.
-___
+
+
+## Phase Two
 
 ```csharp
-Console.WriteLine("Enter your item's name: ");
-var itemName = Console.ReadLine()!;
-```
-`Console.ReadLine()` reads the user's input until the Enter key is pressed and stores it in the variable `itemName`.
-___
-```csharp
-Console.WriteLine("Enter your item's price: ");
-var itemPrice = Convert.ToDouble(Console.ReadLine());
-```
- * `Console.ReadLine()` reads the user's input until the Enter key is pressed.
- * `Convert.ToDouble()` converts the input `string` to a `double` and stores it in the variable `itemPrice`.
-___
-```csharp
-itemList.Add((itemName, itemPrice));
-```
-This line adds a `tuple` `(itemName, itemPrice)` to the `itemList`.
-___
-```csharp
-Console.WriteLine("Would you like to input another item? (y/n)");
-var userResponse  = Console.ReadLine()!;
-```
-`Console.ReadLine()` reads the user's response and stores it in the variable `userResponse`.
-___
-```csharp
-if (userResponse == "n") {
-    shouldContinueAddingItems = false;
-}
-```
-This `if` statement checks if the user's response is 'n'.
-If it is, `shouldContinueAddingItems` is set to `false`, which will terminate the loop after the current iteration.
-___
-```csharp
-var totalPrice = 0.0;
-```
-`totalPrice` is initialized to `0.0` outside the loop to accumulate the total price of all items, `0.0` is the default initialisation for a double
-___
-```csharp
-foreach(var item in itemList){
-    Console.WriteLine($"Item: {item.Item1} Price: {item.Item2}");
-    totalPrice += item.Item2;
-}
-```
- * This foreach loop iterates over each `item` in `itemList`.
- * For each item, it prints the item's name and price using string interpolation.
- * It also adds the item's price to `totalPrice` using the `+=` operator.
-___
+class Program
+{
+    static void Main()
+    {
+        var itemList = new List<Item>();
 
-```csharp
-Console.WriteLine($"Total: {totalPrice}");
+        Console.WriteLine("Enter your table number: ");
+        var tableNumber  = Console.ReadLine()!;
+
+        Console.WriteLine("Enter your server ID: ");
+        var serverId = Console.ReadLine()!;
+
+        while (true) 
+        {
+            Console.WriteLine("Enter your item's name: ");
+            var itemName = Console.ReadLine()!;
+
+            while (true)
+            {
+                Console.WriteLine("Enter your item's price: ");
+
+                if (double.TryParse(Console.ReadLine(), out double itemPrice)) 
+                {
+                    itemList.Add(new Item(itemName, itemPrice));
+                    break;
+                }
+                
+                Console.WriteLine("Invalid price. Please enter a valid number.");
+            }
+            
+            Console.WriteLine("Would you like to input another item? (y/n)");
+            var userResponse  = Console.ReadLine()!;
+
+            if (userResponse == "n") 
+            {
+                break;
+            }
+        }
+
+        Console.WriteLine($"Table Number: {tableNumber}");
+        Console.WriteLine($"Server Id: {serverId}");
+
+        var totalPrice = 0.0;
+
+        foreach(var item in itemList)
+        {
+            Console.WriteLine($"Item: {item.Name} Price: {item.Price}");
+            totalPrice += item.{item.Price};
+        }
+
+        Console.WriteLine($"Total: {totalPrice}");
+    }
+}
+
+class Item
+{
+    public Item(string name, double price)
+    {
+        Name = name;
+        Price = price;
+    }
+
+    public string Name {get; set;}
+    public double Price {get; set;}
+}
 ```
-This final line prints the total price of all items using string interpolation.
