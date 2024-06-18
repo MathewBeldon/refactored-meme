@@ -7,10 +7,12 @@ class Program
     static void Main()
     {
         var hasSelectedExit = false;
+        var orderHistory = new List<Order>();
         while (!hasSelectedExit) 
         {
             Console.WriteLine("1. Start Order");
-            Console.WriteLine("2. Exit");
+            Console.WriteLine("2. Order History");
+            Console.WriteLine("3. Exit");
 
             while (true)
             {
@@ -21,10 +23,22 @@ class Program
                 {
                     var order = StartOrder();
                     PrintRecipt(order);
+                    orderHistory.Add(order);
+
                     break;
                 }
 
                 if (mainMenuSelection == "2")
+                {
+                    foreach(var order in orderHistory)
+                    {
+                        PrintRecipt(order);
+                    }
+
+                    break;
+                }
+
+                if (mainMenuSelection == "3")
                 {
                     hasSelectedExit = true;
                     break;
